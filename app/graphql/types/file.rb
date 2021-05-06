@@ -4,7 +4,7 @@ module Types
   class File < Types::BaseObject
     field :filename, String, null: false
     field :mime_type, String, null: false
-    field :size, Int, null: false
+    field :size, GraphQL::Types::BigInt, null: false
     field :etag, String, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
