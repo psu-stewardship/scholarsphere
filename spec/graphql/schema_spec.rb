@@ -37,7 +37,7 @@ RSpec.describe Schema do
 
       specify do
         expect(result.dig('data', 'work', 'files')).to include(
-          'filename' => file_name.to_s, 'mimeType' => 'image/png', 'size' => 63960
+          'filename' => file_name.to_s, 'mimeType' => 'image/png', 'size' => "63960"
         )
       end
     end
