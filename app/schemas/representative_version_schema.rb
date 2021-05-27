@@ -10,6 +10,7 @@ class RepresentativeVersionSchema < BaseSchema
       .merge(published_date_schema.document)
       .merge(facet_schema.document)
       .merge(title_schema.document)
+      .merge(member_files_schema.document)
   end
 
   private
@@ -28,5 +29,9 @@ class RepresentativeVersionSchema < BaseSchema
 
     def title_schema
       TitleSchema.new(resource: resource.representative_version)
+    end
+
+    def member_files_schema
+      MemberFilesSchema.new(resource: resource.representative_version)
     end
 end

@@ -326,23 +326,27 @@ RSpec.describe WorkVersion, type: :model do
   end
 
   describe '#to_solr' do
-    subject(:work_version) { create(:work_version, published_date: '1999-uu-uu') }
+    subject(:work_version) { create(:work_version, :with_files, published_date: '1999-uu-uu') }
+
+    before { work_version.file_resources.reload }
 
     its(:to_solr) do
       is_expected.to include(
         all_dois_ssim: an_instance_of(Array),
+        depositor_id_isi: work_version.work.depositor.id,
+        discover_groups_ssim: [Group::PUBLIC_AGENT_NAME],
+        discover_users_ssim: [],
+        display_work_type_ssi: Work::Types.display(work_version.work_type),
+        embargoed_until_dtsi: nil,
+        file_resource_ids_ssim: [work_version.file_resources.first.uuid],
+        file_version_titles_ssim: [work_version.file_version_memberships.first.title],
+        latest_version_bsi: false,
+        proxy_id_isi: nil,
+        published_date_dtrsi: '1999',
         title_ssort: kind_of(String),
         title_tesim: [work_version.title],
-        latest_version_bsi: false,
-        display_work_type_ssi: Work::Types.display(work_version.work_type),
-        work_type_ss: work_version.work_type,
-        published_date_dtrsi: '1999',
-        embargoed_until_dtsi: nil,
-        depositor_id_isi: work_version.work.depositor.id,
-        proxy_id_isi: nil,
-        discover_users_ssim: [],
-        discover_groups_ssim: [Group::PUBLIC_AGENT_NAME],
-        visibility_ssi: Permissions::Visibility::OPEN
+        visibility_ssi: Permissions::Visibility::OPEN,
+        work_type_ss: work_version.work_type
       )
     end
   end

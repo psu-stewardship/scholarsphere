@@ -374,6 +374,8 @@ RSpec.describe Work, type: :model do
           edit_groups_ssim
           edit_users_ssim
           embargoed_until_dtsi
+          file_resource_ids_ssim
+          file_version_titles_ssim
           id
           identifier_tesim
           keyword_sim
@@ -383,8 +385,8 @@ RSpec.describe Work, type: :model do
           proxy_id_isi
           published_date_dtrsi
           published_date_tesim
-          publisher_tesim
           publisher_statement_tesim
+          publisher_tesim
           read_groups_ssim
           read_users_ssim
           related_url_tesim

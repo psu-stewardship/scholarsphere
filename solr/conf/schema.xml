@@ -213,6 +213,7 @@
       copyField also supports a maxChars to copy setting.  -->
 
   <copyField source="*_tsim" dest="all_text_timv" maxChars="3000"/>
+  <copyField source="*_tei" dest="all_text_timv" maxChars="3000"/>
   <copyField source="*_tesim" dest="all_text_timv" maxChars="3000"/>
   <copyField source="*_ssim" dest="all_text_timv" maxChars="3000"/>
   <copyField source="*_si" dest="all_text_timv" maxChars="3000"/>

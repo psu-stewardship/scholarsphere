@@ -291,7 +291,8 @@ class WorkVersion < ApplicationRecord
         PublishedDateSchema,
         FacetSchema,
         DoiSchema,
-        TitleSchema
+        TitleSchema,
+        MemberFilesSchema
       )
     end
 end

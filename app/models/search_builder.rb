@@ -8,6 +8,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   include CatalogSearchBehavior
 
   self.default_processor_chain += %i(
+    search_related_files
     restrict_search_to_works_and_collections
     apply_gated_discovery
     limit_to_public_resources

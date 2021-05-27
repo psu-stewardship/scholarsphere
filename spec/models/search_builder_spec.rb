@@ -12,6 +12,7 @@ RSpec.describe SearchBuilder do
   describe '.default_processor_chain' do
     its(:default_processor_chain) do
       is_expected.to include(
+        :search_related_files,
         :restrict_search_to_works_and_collections,
         :apply_gated_discovery,
         :limit_to_public_resources,
@@ -57,6 +58,24 @@ RSpec.describe SearchBuilder do
         expect(parameters['fq']).to include(
           '-embargoed_until_dtsi:[NOW TO *]'
         )
+      end
+    end
+
+    context 'with user input on all fields' do
+      let(:parameters) { builder.with({ search_field: 'all_fields' }).where('user query').processed_parameters }
+
+      it 'searches related files' do
+        expect(parameters['q']).to eq(
+          '{!lucene}{!dismax v=user query} {!join from=id to=file_resource_ids_ssim}{!dismax v=user query}'
+        )
+      end
+    end
+
+    context 'with user input on specific fields' do
+      let(:parameters) { builder.with({}).where('user query').processed_parameters }
+
+      it 'does NOT search related fields' do
+        expect(parameters['q']).to eq('user query')
       end
     end
   end

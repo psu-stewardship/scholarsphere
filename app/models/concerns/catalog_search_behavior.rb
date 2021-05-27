@@ -3,6 +3,15 @@
 module CatalogSearchBehavior
   extend ActiveSupport::Concern
 
+  # @note This applies the lucene query parser because edismax doesn't seem to work with the Solr join
+  def search_related_files(solr_parameters)
+    return if blacklight_params[:q].blank? || blacklight_params[:search_field] != 'all_fields'
+
+    user_query = blacklight_params[:q]
+    solr_parameters[:q] = "{!lucene}#{dismax_query(user_query)} #{related_file_resources(user_query)}"
+    solr_parameters[:defType] = 'lucene'
+  end
+
   def restrict_search_to_works_and_collections(solr_parameters)
     solr_parameters[:fq] ||= []
     solr_parameters[:fq] << '{!terms f=model_ssi}Work,Collection'
@@ -29,6 +38,14 @@ module CatalogSearchBehavior
   end
 
   private
+
+    def dismax_query(query_term)
+      "{!dismax v=#{query_term}}"
+    end
+
+    def related_file_resources(query_term)
+      "{!join from=id to=file_resource_ids_ssim}#{dismax_query(query_term)}"
+    end
 
     def gated_edit_filters
       [
